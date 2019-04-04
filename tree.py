@@ -2,15 +2,15 @@
 
 from enum import Enum
 
-class PIPES(Enum):
+class Deco(Enum):
     MID = '├── '
     END = '└── '
     CONT = '│   '
     EMPTY = '    '
 
 class Tree:
-    def __init__(self, traverser, print_node, decos=PIPES):
-        self.decos = decos
+    def __init__(self, traverser, print_node, deco=Deco):
+        self.deco = deco
         self.traverser = traverser
         self.print_node = print_node
 
@@ -23,10 +23,10 @@ class Tree:
         if not dstack:
             return
         for d in dstack[:-1]:
-            if d == self.decos.END:
-                print(self.decos.EMPTY.value, end='')
-            elif d == self.decos.MID:
-                print(self.decos.CONT.value, end='')
+            if d == self.deco.END:
+                print(self.deco.EMPTY.value, end='')
+            elif d == self.deco.MID:
+                print(self.deco.CONT.value, end='')
             else:
                 print(d, end='')
         print(dstack[-1].value, end='')

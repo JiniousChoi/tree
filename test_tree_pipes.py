@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import unittest
-from tree import Tree, PIPES
+from tree import Tree, Deco
 
 class Node:
     def __init__(self, name):
@@ -37,12 +37,12 @@ def traverse(node, dstack=[]):
         return
 
     for child in node.children[:-1]:
-        dstack.append(PIPES.MID)
+        dstack.append(Deco.MID)
         yield from traverse(child, dstack)
         dstack.pop(-1)
 
     last_child = node.children[-1]
-    dstack.append(PIPES.END)
+    dstack.append(Deco.END)
     yield from traverse(last_child, dstack)
     dstack.pop(-1)
 
