@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-from collections import namedtuple
 from enum import Enum
 
 class PIPES(Enum):
