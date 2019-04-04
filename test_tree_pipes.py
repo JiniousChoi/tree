@@ -54,13 +54,13 @@ class TreeTest(unittest.TestCase):
     def test_pipes_simple(self):
         print(" --- tree with pipes simple ---")
         root = make_simple_node()
-        tree = Tree(PIPES, traverse(root), print_node)
+        tree = Tree(traverse(root), print_node)
         tree.print()
 
     def test_pipes_complex(self):
         print(" --- tree with pipes complex ---")
         root = make_complex_node()
-        tree = Tree(PIPES, traverse(root), print_node)
+        tree = Tree(traverse(root), print_node)
         tree.print()
 
 

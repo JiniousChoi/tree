@@ -10,7 +10,7 @@ class PIPES(Enum):
     EMPTY = '    '
 
 class Tree:
-    def __init__(self, decos, traverser, print_node):
+    def __init__(self, traverser, print_node, decos=PIPES):
         self.decos = decos
         self.traverser = traverser
         self.print_node = print_node

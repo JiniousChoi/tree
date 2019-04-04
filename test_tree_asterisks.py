@@ -60,13 +60,13 @@ class TreeTest(unittest.TestCase):
     def test_asterisk_simple(self):
         print(" --- tree with asterisks simple ---")
         root = make_simple_node()
-        tree = Tree(ASTERISKS, traverse(root), print_node)
+        tree = Tree(traverse(root), print_node, ASTERISKS)
         tree.print()
 
     def test_asterisk_complex(self):
         print(" --- tree with asterisks complex ---")
         root = make_complex_node()
-        tree = Tree(ASTERISKS, traverse(root), print_node)
+        tree = Tree(traverse(root), print_node, ASTERISKS)
         tree.print()
 
 
