@@ -1,50 +1,40 @@
 #!/usr/bin/python3
 
+from tree import Tree, Deco
 from kazoo.client import KazooClient
 
 zk = KazooClient(hosts='127.0.0.1:2181')
 zk.start()
 
-class ZNode:
+class Node:
     def __init__(self, path, name, val=None):
         self.path = path
         self.name = name
         self.val = val
-        self.children = []
 
-def make_zktree(path = '/'):
+def traverse(path, name, dstack=[]):
     data, stat = zk.get(path)
-    name = path.rsplit('/', 2)[-2]
-    n = ZNode(path, name, data.decode('utf8') if data else 'null')
-    for child in zk.get_children(path):
-        c = make_zktree(path + child + '/')
-        n.children.append(c)
-    return n
-
-def print_zktree(n, header = []):
-    if not n:
+    n = Node(path, name, data.decode('utf8') if data else 'null')
+    yield (dstack, n)
+    children = zk.get_children(path)
+    if not children:
         return
-    print("{}{} ({})".format(''.join(header), n.name, n.val))
-    transform_parent(header)
-    for c in n.children:
-        if c == n.children[-1]:
-            header.append('└── ')
-            print_zktree(c, header)
-            header.pop(-1)
-        else:
-            header.append('├── ')
-            print_zktree(c, header)
-            header.pop(-1)
 
-def transform_parent(header):
-    if not header:
-        return
-    if header[-1] == '└── ':
-        header[-1] = '    '
-    elif header[-1] == '├── ':
-        header[-1] = '│   '
+    for cname in children[:-1]:
+        dstack.append(Deco.MID)
+        yield from traverse(path + cname + '/', cname, dstack)
+        dstack.pop(-1)
+
+    cname = children[-1]
+    dstack.append(Deco.END)
+    yield from traverse(path + cname + '/', cname, dstack)
+    dstack.pop(-1)
+
+def print_node(n):
+    print("{} ({})".format(n.name, n.val))
 
 def main():
-    zktree = make_zktree()
-    zktree.name = '/'
-    print_zktree(zktree)
+    traversor = traverse('/', '/')
+    Tree(traversor, print_node).print()
+
+main()
