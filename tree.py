@@ -3,9 +3,11 @@
 from collections import namedtuple
 from enum import Enum
 
-DECOS = namedtuple('DECO', ['MID', 'END', 'CONT', 'EMPTY'])
-
-PIPES = DECOS('├── ', '└── ', '│   ', '    ')
+class PIPES(Enum):
+    MID = '├── '
+    END = '└── '
+    CONT = '│   '
+    EMPTY = '    '
 
 class Tree:
     def __init__(self, decos, traverser, print_node):
@@ -23,9 +25,9 @@ class Tree:
             return
         for d in dstack[:-1]:
             if d == self.decos.END:
-                print(self.decos.EMPTY, end='')
+                print(self.decos.EMPTY.value, end='')
             elif d == self.decos.MID:
-                print(self.decos.CONT, end='')
+                print(self.decos.CONT.value, end='')
             else:
                 print(d, end='')
-        print(dstack[-1], end='')
+        print(dstack[-1].value, end='')

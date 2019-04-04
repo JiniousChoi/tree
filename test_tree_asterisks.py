@@ -1,8 +1,14 @@
 #!/usr/bin/python3
 
 import unittest
-from tree import Tree, DECOS
-ASTERISKS = DECOS('* ', '* ', '* ', '* ')
+from tree import Tree
+from enum import Enum
+
+class ASTERISKS(Enum):
+    MID = '* '
+    END = '* '
+    CONT = '* '
+    EMPTY = '* '
 
 class Node:
     def __init__(self, name):
